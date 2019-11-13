@@ -1,0 +1,4 @@
+# Ignore everything in this directory. Only needed for docker volume mapping
+*
+# Except this file
+!.gitignore
