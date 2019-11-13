@@ -1,0 +1,16 @@
+http://schema.org/author=http://purl.org/dc/elements/1.1/creator
+http://bib.schema.org/author=http://purl.org/dc/elements/1.1/creator
+http://schema.org/illustrator=http://purl.org/dc/elements/1.1/contributor
+http://schema.org/publisher=http://purl.org/dc/elements/1.1/publisher
+http://schema.org/name=http://purl.org/dc/elements/1.1/title
+http://schema.org/about=http://purl.org/dc/elements/1.1/coverage
+http://schema.org/description=http://purl.org/dc/elements/1.1/description
+http://schema.org/dateCreated=http://purl.org/dc/terms/created
+http://schema.org/spatialCoverage=http://www.europeana.eu/schemas/edm/currentLocation
+http://schema.org/width=http://purl.org/dc/terms/extent
+http://schema.org/height=http://purl.org/dc/terms/extent
+http://schema.org/thumbnailUrl=http://www.europeana.eu/schemas/edm/preview
+http://schema.org/image=http://www.europeana.eu/schemas/edm/isShownBy
+http://schema.org/url=http://www.europeana.eu/schemas/edm/isShownAt
+http://schema.org/isPartOf=http://purl.org/dc/terms/isPartOf
+http://schema.org/license=http://purl.org/dc/elements/1.1/rights

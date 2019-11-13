@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  edmconverter:
+    image: edmconverter:latest
+    build: .
+    restart: on-failure
+    volumes: #map your own local volume to the docker volume
+      - ./data:/opt/edmconverter
+    environment: # Pass environment variables to the service
+      CONVERTER_DSURI: http://data.bibliotheken.nl/id/dataset/rise-centsprenten
+      CONVERTER_OUTPUTFILE: /opt/edmconverter/output/converted.ttl
+      CONVERTER_CRAWLERFILE: /opt/edmconverter/output/crawled.nt
+      CONVERTER_MAPPINGFILE: /opt/edmconverter/mapping/mapping.txt
