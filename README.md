@@ -31,3 +31,7 @@ This meand that from the original crawled output we go from:
 
 To:
 `<dc:creator xml:lang="nl">Dirk van Lubeek (1747-1811)</dc:creator>`
+
+Currently there are two special mappings:
+- Height and Width are both mapped to extend which means they need to be prefixed.
+- Thumbnails need to be reformatted, when encountered it will edit the link to the thumbnail

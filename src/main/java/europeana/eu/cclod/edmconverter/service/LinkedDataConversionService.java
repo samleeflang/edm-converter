@@ -57,6 +57,8 @@ public class LinkedDataConversionService {
                 newModel.add(new StatementImpl(statement.getSubject(), new PropertyImpl(mapping.get(statement.getPredicate().toString())), model.createLiteral("width: " + statement.getObject())));
             } else if (statement.getPredicate().toString().contains("height")) {
                 newModel.add(new StatementImpl(statement.getSubject(), new PropertyImpl(mapping.get(statement.getPredicate().toString())), model.createLiteral("height: " + statement.getObject())));
+            } else if (statement.getPredicate().toString().contains("thumbnailUrl")){
+                newModel.add(new StatementImpl(statement.getSubject(), new PropertyImpl(mapping.get(statement.getPredicate().toString())), model.createResource(statement.getObject().toString().replace("role=image&size=variable", "role=thumbnail"))));
             } else if (statement.getObject().isLiteral()) {
                 Literal liter = (Literal) statement.getObject();
                 if (liter.getLanguage().isEmpty()) {
