@@ -11,4 +11,4 @@ FROM openjdk:11-jre-slim
 
 COPY --from=build ./target .
 
-CMD ["java", "-jar", "cc-lod-crawler-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "cc-lod-edmconverter-0.0.1-SNAPSHOT.jar"]
