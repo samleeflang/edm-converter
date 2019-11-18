@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Build Image') {
             steps {
-            sh 'docker build -t leeflangjs/test-with-pipeline'
+            sh 'docker build -t leeflangjs/test-with-pipeline .'
             }
         }
 //         stage('Push') {
