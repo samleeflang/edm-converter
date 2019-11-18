@@ -11,11 +11,11 @@ pipeline {
             sh 'mvn clean package'
             }
         }
-//         stage('Build Image') {
-//             steps {
-//             //
-//             }
-//         }
+        stage('Build Image') {
+            steps {
+            sh 'docker build -t leeflangjs/test-with-pipeline'
+            }
+        }
 //         stage('Push') {
 //             steps {
 //             //
