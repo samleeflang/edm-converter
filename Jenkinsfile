@@ -20,7 +20,7 @@ podTemplate(label: 'mypod', containers: [
         stage('Maven Build') {
             container('maven') {
                 dir('edm-converter/') {
-                    sh 'mvn clean install'
+                    sh 'mvn clean package'
                 }
             }
         }
