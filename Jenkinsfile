@@ -1,27 +1,42 @@
-pipeline {
-    agent any
-    tools {
-        maven 'mvn'
-        jdk 'java11'
-        git 'Default'
-    }
-    stages {
-        stage('Maven build') {
-            steps {
-                sh 'mvn clean package'
+properties([pipelineTriggers([githubPush()])])
+podTemplate(label: 'mypod', containers: [
+    containerTemplate(name: 'git', image: 'alpine/git', ttyEnabled: true, command: 'cat'),
+    containerTemplate(name: 'maven', image: 'maven:3.6-jdk-11-slim', command: 'cat', ttyEnabled: true),
+    containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true)
+  ],
+  volumes: [
+    hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
+  ]
+  ) {
+    node('mypod') {
+        git url: 'https://github.com/samleeflang/edm-converter.git', branch: 'master'
+        stage('Check running containers') {
+            container('docker') {
+                // example to show you can run docker commands when you mount the socket
+                sh 'hostname'
+                sh 'hostname -i'
+                sh 'docker ps'
             }
         }
-        stage('Build Image') {
-            steps {
-                sh 'docker build -t leeflangjs/test-with-pipeline .'
+        
+        stage('Clone repository') {
+            container('git') {
+                sh 'git clone -b master https://github.com/samleeflang/edm-converter.git'
             }
         }
-        stage('Push') {
-            environment {
-                DOCKER_CREDS = credentials('test-docker-secret')
+
+        stage('Maven Build') {
+            container('maven') {
+                dir('edm-converter/') {
+                    sh 'mvn clean install'
+                }
             }
-            steps {
-                sh 'docker login -u $DOCKER_CREDS_USR -p $DOCKER_CREDS_PSW && docker push leeflangjs/test-with-pipeline'
+        }
+        stage('Docker Build & Push') {
+            container('docker') {
+                sh 'docker login -u clariahacr -p tzoR8bw5CX39qntCJ+4DtUiHwkgUDgCy'
+                sh 'docker build . -t clariahacr.azurecr.io/leeflangs-test'
+                sh 'docker push clariahacr.azurecr.io/leeflangs-test'
             }
         }
     }
