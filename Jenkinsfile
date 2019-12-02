@@ -27,9 +27,11 @@ podTemplate(label: 'mypod', containers: [
         
         stage('Docker Build & Push') {
             container('docker') {
-                sh 'docker login clariahacr.azurecr.io -u clariahacr -p tzoR8bw5CX39qntCJ+4DtUiHwkgUDgCy'
-                sh 'docker build . -t clariahacr.azurecr.io/leeflangs-test'
-                sh 'docker push clariahacr.azurecr.io/leeflangs-test'
+                dir('edm-converter/') {
+                    sh 'docker login clariahacr.azurecr.io -u clariahacr -p tzoR8bw5CX39qntCJ+4DtUiHwkgUDgCy'
+                    sh 'docker build . -t clariahacr.azurecr.io/leeflangs-test'
+                    sh 'docker push clariahacr.azurecr.io/leeflangs-test'
+                }
             }
         }
     }
