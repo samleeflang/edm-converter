@@ -3,7 +3,7 @@ podTemplate(label: 'jenkins-slave', containers: [
     containerTemplate(name: 'git', image: 'alpine/git', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'maven', image: 'maven:3.6-jdk-11-slim', command: 'cat', ttyEnabled: true),
     containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
-    containerTemplate(name: 'kubectl', image: 'bitnami/kubectl:1.15', comand: 'cat', ttyEnabled: true)
+    containerTemplate(name: 'kubectl', image: 'bitnami/kubectl:1.15', command: 'cat', ttyEnabled: true)
   ],
   volumes: [
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
