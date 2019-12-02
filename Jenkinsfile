@@ -1,15 +1,15 @@
 properties([pipelineTriggers([githubPush()])])
-podTemplate(label: 'mypod', containers: [
+podTemplate(label: 'jenkins-slave', containers: [
     containerTemplate(name: 'git', image: 'alpine/git', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'maven', image: 'maven:3.6-jdk-11-slim', command: 'cat', ttyEnabled: true),
     containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
-    containerTemplate(name: 'kubectl', image: 'bitnami/kubectl:1.15', coomand: 'cat', ttyEnabled: true)
+    containerTemplate(name: 'kubectl', image: 'bitnami/kubectl:1.15', comand: 'cat', ttyEnabled: true)
   ],
   volumes: [
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
   ]
   ) {
-    node('mypod') {
+    node('jenkins-slave') {
         git url: 'https://github.com/samleeflang/edm-converter.git', branch: 'master'
         
         stage('Clone repository') {
