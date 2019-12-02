@@ -12,14 +12,6 @@ podTemplate(label: 'jenkins-slave', containers: [
     node('jenkins-slave') {
         git url: 'https://github.com/samleeflang/edm-converter.git', branch: 'master'
 
-        stage('Automatical deploy to kubernetes') {
-            container('kubectl') {
-                dir('edm-converter/') {
-                    sh 'kubectl version'
-                }
-            }
-        }
-
         stage('Clone repository') {
             container('git') {
                 sh 'git clone -b master https://github.com/samleeflang/edm-converter.git'
@@ -43,6 +35,13 @@ podTemplate(label: 'jenkins-slave', containers: [
                 }
             }
         }
-
+        
+        stage('Automatical deploy to kubernetes') {
+            container('kubectl') {
+                dir('edm-converter/') {
+                    sh 'kubectl get pod'
+                }
+            }
+        }
     }
 }
