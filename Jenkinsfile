@@ -2,7 +2,8 @@ properties([pipelineTriggers([githubPush()])])
 podTemplate(label: 'mypod', containers: [
     containerTemplate(name: 'git', image: 'alpine/git', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'maven', image: 'maven:3.6-jdk-11-slim', command: 'cat', ttyEnabled: true),
-    containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true)
+    containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
+    containerTemplate(name: 'kubectl', image: 'bitnami/kubectl:1.15', coomand: 'cat', ttyEnabled: true)
   ],
   volumes: [
     hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
@@ -31,6 +32,14 @@ podTemplate(label: 'mypod', containers: [
                     sh 'docker login clariahacr.azurecr.io -u clariahacr -p tzoR8bw5CX39qntCJ+4DtUiHwkgUDgCy'
                     sh 'docker build . -t clariahacr.azurecr.io/leeflangs-test'
                     sh 'docker push clariahacr.azurecr.io/leeflangs-test'
+                }
+            }
+        }
+        
+        stage('Automatical deploy to kubernetes') {
+            container('kubectl') {
+                dir('edm-converter/') {
+                    sh 'kubectl version'
                 }
             }
         }
