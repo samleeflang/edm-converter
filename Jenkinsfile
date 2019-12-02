@@ -10,14 +10,6 @@ podTemplate(label: 'mypod', containers: [
   ) {
     node('mypod') {
         git url: 'https://github.com/samleeflang/edm-converter.git', branch: 'master'
-        stage('Check running containers') {
-            container('docker') {
-                // example to show you can run docker commands when you mount the socket
-                sh 'hostname'
-                sh 'hostname -i'
-                sh 'docker ps'
-            }
-        }
         
         stage('Clone repository') {
             container('git') {
@@ -32,9 +24,10 @@ podTemplate(label: 'mypod', containers: [
                 }
             }
         }
+        
         stage('Docker Build & Push') {
             container('docker') {
-                sh 'docker login -u clariahacr -p tzoR8bw5CX39qntCJ+4DtUiHwkgUDgCy'
+                sh 'docker login clariahacr.azurecr.io -u clariahacr -p tzoR8bw5CX39qntCJ+4DtUiHwkgUDgCy'
                 sh 'docker build . -t clariahacr.azurecr.io/leeflangs-test'
                 sh 'docker push clariahacr.azurecr.io/leeflangs-test'
             }
