@@ -39,7 +39,7 @@ podTemplate(label: 'jenkins-slave', containers: [
         stage('Automatical deploy to kubernetes') {
             container('kubectl') {
                 dir('edm-converter/') {
-                    sh 'kubectl version'
+                    sh 'echo test'
                 }
             }
         }
