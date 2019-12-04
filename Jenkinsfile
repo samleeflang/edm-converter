@@ -29,9 +29,9 @@ podTemplate(label: 'jenkins-slave', containers: [
         stage('Docker Build & Push') {
             container('docker') {
                 dir('edm-converter/') {
-                    sh 'docker login clariahacr.azurecr.io -u clariahacr -p tzoR8bw5CX39qntCJ+4DtUiHwkgUDgCy'
-                    sh 'docker build . -t clariahacr.azurecr.io/leeflangs-test'
-                    sh 'docker push clariahacr.azurecr.io/leeflangs-test'
+                    sh 'docker login 51.105.200.91/harbor -u docker -p testDocker1'
+                    sh 'docker build . -t 51.105.200.91/harbor/test-project/leeflangs-test'
+                    sh 'docker push 51.105.200.91/harbor/test-project/leeflangs-test'
                 }
             }
         }
