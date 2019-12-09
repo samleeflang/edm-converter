@@ -1,0 +1,25 @@
+image: docker:latest
+services:
+  - docker:dind
+
+variables:
+  DOCKER_DRIVER: overlay
+
+stages:
+  - build
+  - package
+
+maven-build:
+  image: maven:3-jdk-11
+  stage: build
+  script: "mvn package -B"
+  artifacts:
+    paths:
+      - target/*.jar
+
+docker-build:
+  stage: package
+  script:
+    - docker build -t registry.51.124.140.47.nip.io/leeflangs-test .
+    - docker login -u docker-token -p $CI_BUILD_TOKEN registry.51.124.140.47.nip.io
+    - docker push registry.51.124.140.47.nip.io/leeflangs-test
