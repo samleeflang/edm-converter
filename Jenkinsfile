@@ -10,6 +10,15 @@ podTemplate(label: 'jenkins-slave', containers: [
   ]
   ) {
     node('jenkins-slave') {
+        
+        def secrets = [
+            [path: 'secret/docker', engineVersion: 1, secretValues: [
+                [envVar: 'DOCKER_PSW', vaultKey: 'DOCKER_PSW'],
+                [envVar: 'DOCKER_USR', vaultKey: 'DOCKER_USR']]]
+        ]
+        def configuration = [vaultUrl: 'http://vault-helm.default.svc.cluster.local:8200',
+                            vaultCredentialId: 'c64b32ee-4891-44ca-b151-42caea9856bc', engineVersion: 1]
+        
         git url: 'https://github.com/samleeflang/edm-converter.git', branch: 'master'
 
         stage('Clone repository') {
@@ -29,9 +38,11 @@ podTemplate(label: 'jenkins-slave', containers: [
         stage('Docker Build & Push') {
             container('docker') {
                 dir('edm-converter/') {
-                    sh 'docker login clariahacr.azurecr.io -u clariahacr -p tzoR8bw5CX39qntCJ+4DtUiHwkgUDgCy'
-                    sh 'docker build . -t clariahacr.azurecr.io/leeflangs-test'
-                    sh 'docker push clariahacr.azurecr.io/leeflangs-test'
+                    withVault([configuration: configuration, vaultSecrets: secrets]) {
+                        sh 'docker login harbor.51-105-200-91.nip.io/sam_test -u $DOCKER_USR -p $DOCKER_PSW'
+                        sh 'docker build . -t harbor.51-105-200-91.nip.io/sam_test/leeflangs-test'
+                        sh 'docker push harbor.51-105-200-91.nip.io/sam_test/leeflangs-test'
+                    }
                 }
             }
         }
